@@ -66,7 +66,7 @@ export default function BodyStatsPage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    await supabase.from('body_metrics').upsert({
+    await (supabase.from('body_metrics') as any).upsert({
       user_id: user.id,
       recorded_at: format(new Date(), 'yyyy-MM-dd'),
       weight: form.weight ? parseFloat(form.weight) : null,

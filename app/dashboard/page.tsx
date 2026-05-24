@@ -4,6 +4,7 @@
 import { createServerSupabaseClient } from '@/lib/supabase/server';
 import DashboardClient from './DashboardClient';
 import { format, subDays, startOfMonth, endOfMonth } from 'date-fns';
+import type { WorkoutSession } from '@/types/database';
 
 export default async function DashboardPage() {
   const supabase = await createServerSupabaseClient();
@@ -20,7 +21,7 @@ export default async function DashboardPage() {
     .eq('is_completed', true)
     .gte('started_at', thirtyDaysAgo)
     .order('started_at', { ascending: false })
-    .limit(20);
+    .limit(20) as { data: WorkoutSession[] | null };
 
   // Fetch latest body metric
   const { data: latestMetric } = await supabase
@@ -47,7 +48,7 @@ export default async function DashboardPage() {
     .eq('user_id', user.id)
     .eq('is_completed', true)
     .gte('started_at', startOfMonth(new Date()).toISOString())
-    .lte('started_at', endOfMonth(new Date()).toISOString());
+    .lte('started_at', endOfMonth(new Date()).toISOString()) as { data: { total_volume: number }[] | null };
 
   const monthlyVolume = monthSessions?.reduce((sum, s) => sum + (s.total_volume || 0), 0) || 0;
 

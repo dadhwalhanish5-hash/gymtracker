@@ -57,7 +57,7 @@ export default function AnalyticsPage() {
         .eq('user_id', user.id)
         .eq('is_completed', true)
         .gte('started_at', since)
-        .order('started_at', { ascending: true });
+        .order('started_at', { ascending: true }) as { data: WorkoutSession[] | null };
 
       if (!sessions) { setLoading(false); return; }
 

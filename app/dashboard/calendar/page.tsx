@@ -45,7 +45,7 @@ export default function CalendarPage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
     const dateStr = format(date, 'yyyy-MM-dd');
-    await supabase.from('rest_days').upsert({ user_id: user.id, rest_date: dateStr }, { onConflict: 'user_id,rest_date' });
+    supabase.from
     setSavingRest(false);
     load(currentMonth);
   }

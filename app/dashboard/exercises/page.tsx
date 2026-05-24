@@ -257,17 +257,17 @@ export default function ExercisesPage() {
   useEffect(() => { loadExercises(); }, []);
 
   async function handleSave(exercise: Partial<Exercise>) {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
 
-    if (editExercise) {
-      await supabase.from('exercises').update(exercise).eq('id', editExercise.id);
-    } else {
-      await supabase.from('exercises').insert({ ...exercise, user_id: user.id } as any);
+      if (editExercise) {
+        await (supabase.from('exercises') as any).update(exercise).eq('id', editExercise.id);
+      } else {
+        await (supabase.from('exercises') as any).insert({ ...exercise, user_id: user.id });
+      }
+      setEditExercise(null);
+      loadExercises();
     }
-    setEditExercise(null);
-    loadExercises();
-  }
 
   async function handleDelete(id: string) {
     if (!confirm('Delete this exercise?')) return;

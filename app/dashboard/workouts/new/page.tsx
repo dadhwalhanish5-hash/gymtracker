@@ -344,8 +344,8 @@ export default function NewWorkoutPage() {
       });
 
       // Create workout session
-      const { data: session, error: sessionError } = await supabase
-        .from('workout_sessions')
+      const { data: session, error: sessionError } = await (supabase
+        .from('workout_sessions') as any)
         .insert({
           user_id: user.id,
           name: workoutName,
@@ -394,8 +394,8 @@ export default function NewWorkoutPage() {
           const r = parseInt(set.reps);
           const est1rm = calculate1RM(w, r);
 
-          await supabase
-            .from('personal_records')
+          await (supabase
+            .from('personal_records') as any)
             .upsert({
               user_id: user.id,
               exercise_id: block.exercise.id,
